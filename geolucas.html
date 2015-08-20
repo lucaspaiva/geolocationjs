@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!--<script src="http://maps.googleapis.com/maps/api/js"></script>-->
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script>
+//var myCenter=new google.maps.LatLng(-34.60297614585056,-58.404693603515625);
+
+var PointList = [
+  {"latlng":[-34.60297614585056,-58.404693603515625],name:"Punto 1"},
+  {"latlng":[-34.61879975173952,-58.38340759277344],name:"Punto 2"},
+  {"latlng":[-34.61653942126619,-58.41087341308594],name:"Punto 3"},
+  {"latlng":[-34.59280223530828,-58.458251953125],name:"Punto 4"}
+];
+
+var infoWnd, mapCanvas;
+/*
+function initialize()
+{
+	//Seteo el div donde voy a renderizar el mapa
+	var mapDiv = document.getElementById("googleMap");
+	//Instancio el canvas de googlemaps
+	mapCanvas = new google.maps.Map(mapDiv);
+	//Instancion una ventana de informacino de googlemaps
+	infoWnd = new google.maps.InfoWindow();
+
+	//Mapeo los marcadores en el mapa
+	//TODO: Ver que hace esto de LatLngBounds();
+	var bounds = new google.maps.LatLngBounds();
+  	var point, i, latlng;
+  	for (i in PointList) {
+	    //Creo los markers de acuerdo a la lista que cree antes
+	    point = PointList[i];
+	    latlng = new google.maps.LatLng(point.latlng[0], point.latlng[1]);
+	    bounds.extend(latlng);
+	    var marker = createMarker(
+	      mapCanvas, latlng, point.name
+	    );
+	}
+	
+	mapCanvas.fitBounds(bounds);    
+
+}
+
+//Funcion generica que crea los markers
+function createMarker(map, latlng, title) {
+  //Creates a marker
+  var marker = new google.maps.Marker({
+    position : latlng,
+    map : map,
+    title : title
+  });
+  
+  //The infoWindow is opened when the sidebar button is clicked
+  google.maps.event.addListener(marker, "click", function(){
+    infoWnd.setContent("<strong>" + title + "</title>");
+    infoWnd.open(map, marker);
+  });
+  return marker;
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+*/
+
+if (navigator.geolocation)
+{
+	// Código de la aplicación
+	navigator.geolocation.getCurrentPosition(function(objPosition)
+		{
+			var lon = objPosition.coords.longitude;
+			var lat = objPosition.coords.latitude;
+
+			console.log("long: " + lon);
+			console.log("lat: " + lat);
+
+		}, function(objPositionError)
+		{
+			switch (objPositionError.code)
+			{
+				case objPositionError.PERMISSION_DENIED:
+					console.log("No se ha permitido el acceso a la posición del usuario.");
+				break;
+				case objPositionError.POSITION_UNAVAILABLE:
+					console.log("No se ha podido acceder a la información de su posición.");
+				break;
+				case objPositionError.TIMEOUT:
+					console.log("El servicio ha tardado demasiado tiempo en responder.");
+				break;
+				default:
+					console.log("Error desconocido.");
+			}
+		}, {
+			enableHighAccuracy : true,
+			maximumAge: 75000,
+			timeout: 15000
+		});
+}
+else
+{
+	console.log("no hay geolocalizacion");
+	// No hay soporte para la geolocalización: podemos desistir o utilizar algún método alternativo
+}
+
+
+
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:500px;height:380px;"></div>
+</body>
+
+</html>
