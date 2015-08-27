@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<!--<script src="http://maps.googleapis.com/maps/api/js"></script>-->
-<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.js"></script>
-<script>
-//var myCenter=new google.maps.LatLng(-34.60297614585056,-58.404693603515625);
+/*
+ * GeoLocalizr.js: Metodo para dibujar varios puntos en un mapa de googlemaps
+ * Author: Lucas Paiva		
+ * Licencia: ?
+ *
+ */	
 
 var PointList = [
 				{
@@ -36,7 +34,7 @@ var PointList = [
 
 var infoWnd, mapCanvas;
 
-function tumama()
+function initialize()
 {
 	//Seteo el div donde voy a renderizar el mapa
 	var mapDiv = document.getElementById("googleMap");
@@ -48,44 +46,58 @@ function tumama()
 	//Mapeo los marcadores en el mapa
 	//TODO: Ver que hace esto de LatLngBounds();
 	var bounds = new google.maps.LatLngBounds();
-  	var point, i, latlng;
-  	for (i in PointList) {
+		var point, i, latlng;
+		for (i in PointList) {
 	    //Creo los markers de acuerdo a la lista que cree antes
 	    point = PointList[i];
 	    latlng = new google.maps.LatLng(point.latlng[0], point.latlng[1]);
 	    bounds.extend(latlng);
+
+	    var contentString = '<div id="content_point">' +      
+							'<h1>' + point.title + '</h1>' +
+							'<div id="body_pint">' +
+							'<p>' + point.description +'</p>' +
+							'</div>' +
+							'</div>';
+
 	    var marker = createMarker(
-	      mapCanvas, latlng, point.name
+	      mapCanvas, latlng, point.title, contentString
 	    );
 	}
-	
-	mapCanvas.fitBounds(bounds);    
 
+	mapCanvas.fitBounds(bounds);    
 }
 
 //Funcion generica que crea los markers
-function createMarker(map, latlng, title) {
-  //Creates a marker
-  var marker = new google.maps.Marker({
-    position : latlng,
-    map : map,
-    title : title
-  });
-  
-  //The infoWindow is opened when the sidebar button is clicked
-  google.maps.event.addListener(marker, "click", function(){
-    infoWnd.setContent("<strong>" + title + "</title>");
-    infoWnd.open(map, marker);
-  });
-  return marker;
+function createMarker(map, latlng, title, contentString) {
+	//Creates a marker
+	var marker = new google.maps.Marker({
+	position : latlng,
+	map : map,
+	title : title
+	});
+
+	//The infoWindow is opened when the sidebar button is clicked
+	google.maps.event.addListener(marker, "click", function(){
+	//infoWnd.setContent("<strong>" + title + "</title>");
+	infoWnd.setContent(contentString);
+	infoWnd.open(map, marker);
+	});
+
+	return marker;
 }
 
-google.maps.event.addDomListener(window, 'load', tumama);
+//google.maps.event.addDomListener(window, 'load', initialize);
 
 
-function bind_googlemaps(){
-
+function bindGoogleMaps(){
+	google.maps.event.addDomListener(window, 'load', initialize);
 }
+
+//TODO: Esta funcion es la que pinta el mapa
+//Lo ideal seria meter como input el json con los datos de los puntos y sus coordenadas
+//bindGoogleMaps();
+
 
 /*
 if (navigator.geolocation)
@@ -127,13 +139,3 @@ else
 	// No hay soporte para la geolocalización: podemos desistir o utilizar algún método alternativo
 }
 */
-
-
-</script>
-</head>
-
-<body>
-<div id="googleMap" style="width:500px;height:380px;"></div>
-</body>
-
-</html>

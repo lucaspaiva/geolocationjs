@@ -1,1 +1,1 @@
-# geolocationjs
+# geolocalizr.js
