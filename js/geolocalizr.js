@@ -5,137 +5,112 @@
  *
  */	
 
-var PointList = [
+var locations = [
 				{
-					"latlng"		:[-34.60297614585056,-58.404693603515625],
-					"title"			:"Punto 1",
-					"subtitle"		:"Subtitulo de punto 1",
-					"description"	:"Este es el primer punto del mapa"
+					"lat" 			: "-34.60297614585056",
+					"lng"			: "-58.404693603515625",
+					"title"			: "ORTOPEDIA AMERICANA",
+					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
+					"email"			: "ortopedia_albada@yahoo.com.ar",
+					"phone"			: "4647-9175",
+					"img"			: "http://lorempixel.com/140/50/",
+					"link"			: "http://"
 				},
   				{
-  					"latlng"		:[-34.61879975173952,-58.38340759277344],
-  					"title"			:"Punto 2",
-  					"subtitle"		:"Subtitulo de punto 2",
-  					"description"	:"Este es el segundo punto del mapa"
+  					"lat" 			: "-34.61879975173952",
+					"lng"			: "-58.38340759277344",
+  					"title"			: "OPTICA AROZENA",
+  					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
+  					"email"			: "ortopedia_sirita@yahoo.com.ar",
+					"phone"			: "4754-6705",
+					"img"			: "http://lorempixel.com/140/50/",
+					"link"			: "http://"
   				},
   				{
-  					"latlng"		:[-34.61653942126619,-58.41087341308594],
-  					"title"			:"Punto 3",
-  					"subtitle"		:"Subtitulo de punto 3",
-  					"description"	:"Este es el tercer punto del mapa"
+  					"lat" 			:"-34.61653942126619",
+					"lng"			:"-58.41087341308594",
+  					"title"			:"GOYA DENTAL",
+  					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
+  					"email"			: "ortopedia_argentina@arnet.com.ar",
+					"phone"			: "4734-2713",
+					"img"			: "http://lorempixel.com/140/50/",
+					"link"			: "http://"
   				},
   				{
-  					"latlng"		:[-34.59280223530828,-58.458251953125],
-  					"title"			:"Punto 4",
-  					"subtitle"		:"Subtitulo de punto 4",
-  					"description"	:"Este es el cuarto punto del mapa"
-  				}
-];
+  					"lat" 			:"-34.59280223530828",
+					"lng"			:"-58.458251953125",
+  					"title"			:"OPTICA BRAVO ORTOPEDIA",
+  					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
+  					"email"			: "ortopedia_america@hotmail.com",
+					"phone"			: "(0341) 4427520",
+					"img"			: "http://lorempixel.com/140/50/",
+					"link"			: "http://"
+  				},
+				]  				
 
-var infoWnd, mapCanvas;
+function initializeNewMap(){
 
-function initialize()
-{
-	//Seteo el div donde voy a renderizar el mapa
-	var mapDiv = document.getElementById("googleMap");
-	//Instancio el canvas de googlemaps
-	mapCanvas = new google.maps.Map(mapDiv);
-	//Instancion una ventana de informacino de googlemaps
-	infoWnd = new google.maps.InfoWindow();
+    console.log("Inicializo mapa")
 
-	//Mapeo los marcadores en el mapa
-	//TODO: Ver que hace esto de LatLngBounds();
-	var bounds = new google.maps.LatLngBounds();
-		var point, i, latlng;
-		for (i in PointList) {
-	    //Creo los markers de acuerdo a la lista que cree antes
-	    point = PointList[i];
-	    latlng = new google.maps.LatLng(point.latlng[0], point.latlng[1]);
-	    bounds.extend(latlng);
+    var map = new google.maps.Map(document.getElementById('googleMap'), {
+      zoom: 11,
+      center: new google.maps.LatLng(locations[0].lat,locations[0].lng),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
 
-	    var contentString = '<div id="content_point">' +      
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    var bounds = new google.maps.LatLngBounds();
+
+    for (i in locations) {
+      //Creo los markers de acuerdo a la lista que se creo antes
+      point = locations[i];	
+
+      latlng = new google.maps.LatLng(point.lat, point.lng);
+	  bounds.extend(latlng);
+
+      var contentString = '<div id="content_point">' +      
 							'<h1>' + point.title + '</h1>' +
-							'<div id="body_pint">' +
-							'<p>' + point.description +'</p>' +
+							'<div id="body_print">' +
+							'<p>' + point.description + '</p>' +
+							'<div class="map_email"><strong>Email: </strong>' + point.email + '</div>' +
+							'<div class="map_phone"><strong>Tel: </strong>' + point.phone + '</div>' +
+							'<img src="' + point.img + '"></img>' +
 							'</div>' +
 							'</div>';
 
-	    var marker = createMarker(
-	      mapCanvas, latlng, point.title, contentString
+	  var marker = createMarker(
+	      map, latlng, point.title, contentString
 	    );
-	}
 
-	mapCanvas.fitBounds(bounds);    
+    }
+
+    map.fitBounds(bounds);
+
 }
 
 //Funcion generica que crea los markers
 function createMarker(map, latlng, title, contentString) {
-	//Creates a marker
+
 	var marker = new google.maps.Marker({
 	position : latlng,
 	map : map,
 	title : title
 	});
 
-	//The infoWindow is opened when the sidebar button is clicked
+	var infowindow = new google.maps.InfoWindow();
+
 	google.maps.event.addListener(marker, "click", function(){
-	//infoWnd.setContent("<strong>" + title + "</title>");
-	infoWnd.setContent(contentString);
-	infoWnd.open(map, marker);
-	});
+		infowindow.setContent(contentString);
+		infowindow.open(map, marker);
+		});
 
 	return marker;
 }
 
-//google.maps.event.addDomListener(window, 'load', initialize);
-
 
 function bindGoogleMaps(){
-	google.maps.event.addDomListener(window, 'load', initialize);
+	google.maps.event.addDomListener(window, 'load', initializeNewMap);
 }
-
-//TODO: Esta funcion es la que pinta el mapa
-//Lo ideal seria meter como input el json con los datos de los puntos y sus coordenadas
-//bindGoogleMaps();
-
-
-/*
-if (navigator.geolocation)
-{
-	// Código de la aplicación
-	navigator.geolocation.getCurrentPosition(function(objPosition)
-		{
-			var lon = objPosition.coords.longitude;
-			var lat = objPosition.coords.latitude;
-
-			console.log("long: " + lon);
-			console.log("lat: " + lat);
-
-		}, function(objPositionError)
-		{
-			switch (objPositionError.code)
-			{
-				case objPositionError.PERMISSION_DENIED:
-					console.log("No se ha permitido el acceso a la posición del usuario.");
-				break;
-				case objPositionError.POSITION_UNAVAILABLE:
-					console.log("No se ha podido acceder a la información de su posición.");
-				break;
-				case objPositionError.TIMEOUT:
-					console.log("El servicio ha tardado demasiado tiempo en responder.");
-				break;
-				default:
-					console.log("Error desconocido.");
-			}
-		}, {
-			enableHighAccuracy : true,
-			maximumAge: 75000,
-			timeout: 15000
-		});
-}
-else
-{
-	console.log("no hay geolocalizacion");
-	// No hay soporte para la geolocalización: podemos desistir o utilizar algún método alternativo
-}
-*/
