@@ -5,56 +5,11 @@
  *
  */	
 
-var locations = [
-				{
-					"lat" 			: "-34.60297614585056",
-					"lng"			: "-58.404693603515625",
-					"title"			: "ORTOPEDIA AMERICANA",
-					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
-					"email"			: "ortopedia_albada@yahoo.com.ar",
-					"phone"			: "4647-9175",
-					"img"			: "http://lorempixel.com/140/50/",
-					"link"			: "http://"
-				},
-  				{
-  					"lat" 			: "-34.61879975173952",
-					"lng"			: "-58.38340759277344",
-  					"title"			: "OPTICA AROZENA",
-  					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
-  					"email"			: "ortopedia_sirita@yahoo.com.ar",
-					"phone"			: "4754-6705",
-					"img"			: "http://lorempixel.com/140/50/",
-					"link"			: "http://"
-  				},
-  				{
-  					"lat" 			:"-34.61653942126619",
-					"lng"			:"-58.41087341308594",
-  					"title"			:"GOYA DENTAL",
-  					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
-  					"email"			: "ortopedia_argentina@arnet.com.ar",
-					"phone"			: "4734-2713",
-					"img"			: "http://lorempixel.com/140/50/",
-					"link"			: "http://"
-  				},
-  				{
-  					"lat" 			:"-34.59280223530828",
-					"lng"			:"-58.458251953125",
-  					"title"			:"OPTICA BRAVO ORTOPEDIA",
-  					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
-  					"email"			: "ortopedia_america@hotmail.com",
-					"phone"			: "(0341) 4427520",
-					"img"			: "http://lorempixel.com/140/50/",
-					"link"			: "http://"
-  				},
-				]  				
+function initializeNewMap(locations,zoom){
 
-function initializeNewMap(){
-
-    console.log("Inicializo mapa")
-
-    var map = new google.maps.Map(document.getElementById('googleMap'), {
-      zoom: 11,
-      center: new google.maps.LatLng(locations[0].lat,locations[0].lng),
+	var map = new google.maps.Map(document.getElementById('googleMap'), {
+      zoom: zoom,
+      center: new google.maps.LatLng(locations[0]["lat"], locations[0]["lng"]),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
@@ -62,55 +17,36 @@ function initializeNewMap(){
 
     var marker, i;
 
-    var bounds = new google.maps.LatLngBounds();
+    for (i = 0; i < locations.length; i++) {  
 
-    for (i in locations) {
-      //Creo los markers de acuerdo a la lista que se creo antes
-      point = locations[i];	
-
-      latlng = new google.maps.LatLng(point.lat, point.lng);
-	  bounds.extend(latlng);
-
-      var contentString = '<div id="content_point">' +      
-							'<h1>' + point.title + '</h1>' +
-							'<div id="body_print">' +
-							'<p>' + point.description + '</p>' +
-							'<div class="map_email"><strong>Email: </strong>' + point.email + '</div>' +
-							'<div class="map_phone"><strong>Tel: </strong>' + point.phone + '</div>' +
-							'<img src="' + point.img + '"></img>' +
-							'</div>' +
-							'</div>';
-
-	  var marker = createMarker(
-	      map, latlng, point.title, contentString
-	    );
-
-    }
-
-    map.fitBounds(bounds);
-
-}
-
-//Funcion generica que crea los markers
-function createMarker(map, latlng, title, contentString) {
-
-	var marker = new google.maps.Marker({
-	position : latlng,
-	map : map,
-	title : title
-	});
-
-	var infowindow = new google.maps.InfoWindow();
-
-	google.maps.event.addListener(marker, "click", function(){
-		infowindow.setContent(contentString);
-		infowindow.open(map, marker);
+		marker = new google.maps.Marker({
+		position: new google.maps.LatLng(locations[i]["lat"], locations[i]["lng"]),
+		map: map,
+		icon: 'http://ktct.ca/images/gis/map_icon_poi.png'
 		});
 
-	return marker;
+		google.maps.event.addListener(marker, 'click', (function(marker, i) {
+		return function() {
+
+			var contentString = '<div id="containerInfoMap" style="width: 300px; height: 200px;">' +
+				'<div class="img" style="text-align: center; background-color: cornflowerblue;"><img src="' + locations[i]["img"]  + '"></img></div>' +
+				'<div class="title" style="text-align: center;"><h3>' + locations[i]["title"] + '</h3></div>' +
+				'<div class="description" style="text-align: center;">' +
+				'<p>' + locations[i]["description"] + '</p>' +
+				'</div>' +
+				'<div class="phone" style="text-align: center;"><strong>Tel: </strong>' + locations[i]["phone"] + '</div>' +
+				'<div class="email" style="text-align: center;"><strong>Email: </strong>' + locations[i]["email"] + '</div>' +
+				'</div>';			            	
+
+			infowindow.setContent(contentString);
+			infowindow.open(map, marker);
+		}
+		})(marker, i));
+
+    }
+    
 }
 
-
-function bindGoogleMaps(){
-	google.maps.event.addDomListener(window, 'load', initializeNewMap);
+function bindGoogleMaps(points,zoom){
+	google.maps.event.addDomListener(window, 'load', initializeNewMap(points,zoom));
 }

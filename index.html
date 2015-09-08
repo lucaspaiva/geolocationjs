@@ -14,7 +14,56 @@
 <div id="googleMap" style="width:600px;height:450px;"></div>
 <script>
 //TODO: Estaria bueno ejecutar el metodo en el evento onload de jquery
-bindGoogleMaps();
+var locations = [
+				{
+					"lat" 			: "-34.60297614585056",
+					"lng"			: "-58.404693603515625",
+					"title"			: "ORTOPEDIA AMERICANA",
+					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
+					"email"			: "ortopedia_albada@yahoo.com.ar",
+					"phone"			: "4647-9175",
+					"img"			: "http://lorempixel.com/180/50/",
+					"link"			: "http://"
+				},
+  				{
+  					"lat" 			: "-34.61879975173952",
+					"lng"			: "-58.38340759277344",
+  					"title"			: "OPTICA AROZENA",
+  					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
+  					"email"			: "ortopedia_sirita@yahoo.com.ar",
+					"phone"			: "4754-6705",
+					"img"			: "http://lorempixel.com/180/50/",
+					"link"			: "http://"
+  				},
+  				{
+  					"lat" 			:"-34.61653942126619",
+					"lng"			:"-58.41087341308594",
+  					"title"			:"GOYA DENTAL",
+  					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
+  					"email"			: "ortopedia_argentina@arnet.com.ar",
+					"phone"			: "4734-2713",
+					"img"			: "http://lorempixel.com/180/50/",
+					"link"			: "http://"
+  				},
+  				{
+  					"lat" 			:"-34.59280223530828",
+					"lng"			:"-58.458251953125",
+  					"title"			:"OPTICA BRAVO ORTOPEDIA",
+  					"description"	: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ",
+  					"email"			: "ortopedia_america@hotmail.com",
+					"phone"			: "(0341) 4427520",
+					"img"			: "http://lorempixel.com/180/50/",
+					"link"			: "http://"
+  				},
+				]
+
+$(document).ready(function() {
+
+    console.log("Cargamos el mapa cuando cargue el DOM");
+	bindGoogleMaps(locations,11);
+
+});
+
 </script>	
 </body>
 
