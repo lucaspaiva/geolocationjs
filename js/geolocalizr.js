@@ -5,8 +5,6 @@
  *
  */	
 
-//TODO: tengo que crear un metodo para la geolocalizacion, luego dependiendo de  
-
 //Metodo que inicializa el mapa 
 function initializeNewMap(locations,zoom){
 
@@ -53,38 +51,24 @@ function initializeNewMap(locations,zoom){
 	   
 }
 
-//Metodo que bindea el mapa
-function bindGoogleMaps(points,zoom){
-	google.maps.event.addDomListener(window, 'load', initializeNewMap(points,zoom));
-}
-
 //Metodo que valida geolocalizacion y obtiene coordenadas del usuario
-
 function getGeolocalization(callback){
 
 	console.log("Cargamos el mapa cuando cargue el DOM");
 
-    //aca pongo el codigo de geo html5 ?
 	if(navigator.geolocation){
-		//intentamos obtener las coordenadas del usuario
+
 		navigator.geolocation.getCurrentPosition(function(objPosicion){
-			//almacenamos en variables la longitud y latitud
-			geoFlag = 1;
-			var latAuto = objPosicion.coords.latitude;
-			var lngAuto = objPosicion.coords.longitude;
+
+			var latInit = objPosicion.coords.latitude;
+			var lngInit = objPosicion.coords.longitude;
 			
 			console.log("Obtengo coordenadas");
-			console.log("LNG: " + lngAuto);
-			console.log("LAT: " + latAuto);
+			console.log("LNG: " + latInit);
+			console.log("LAT: " + lngInit);
 
-			console.log("antes de evaluar flag");
-			if(geoFlag == 1){
-				console.log("flag esta prenido");
-				latInit = latAuto;
-				lngInit = lngAuto;
-				console.log("Agrego el elemento");
-				
-				locations.splice(0, 0,
+			//Inserto coordenadas del usuario al array de locations en primer lugar
+			locations.splice(0, 0,
 				    {
 						"lat" 			: latInit,
 						"lng"			: lngInit,
@@ -96,32 +80,23 @@ function getGeolocalization(callback){
 						"link"			: "",
 						"bg-color"		: "cornflowerblue" 
 					});
-			}
-			console.log("despues de evaluar flag");
+
 			return callback();
 
 		},function(objError){
-			//manejamos los errores devueltos por Geolocation API
+
 			switch(objError.code){
-				//no se pudo obtener la informacion de la ubicacion
 				case objError.POSITION_UNAVAILABLE:
-					geoFlag = 0;
 					console.log("La información de su posición no está disponible.");
 				break;
-				//timeout al intentar obtener las coordenadas
 				case objError.TIMEOUT:
-					geoFlag = 0;
 					console.log("Tiempo de espera agotado.");
 				break;
-				//el usuario no desea mostrar la ubicacion
 				case objError.PERMISSION_DENIED:
-					geoFlag = 0;
 				    console.log("Acceso denegado.")
 				    return callback();
 				break;
-				//errores desconocidos
 				case objError.UNKNOWN_ERROR:
-					geoFlag = 0;
 					console.log("Error desconocido.");
 					return callback();
 				break;
@@ -130,15 +105,13 @@ function getGeolocalization(callback){
 
 	}else{
 		//el navegador del usuario no soporta el API de Geolocalizacion de HTML5
-		geoFlag = 0;
 		console.log("Su navegador no soporta Geolocalizacion");
 		return callback();
 	}
 
-	//return callback();
-
 }
 
-function pepe(){
-	console.log("pepe")
+//Metodo que bindea el mapa
+function bindGoogleMaps(points,zoom){
+	google.maps.event.addDomListener(window, 'load', initializeNewMap(points,zoom));
 }
