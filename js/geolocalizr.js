@@ -24,7 +24,7 @@ function initializeNewMap(locations,zoom){
 		marker = new google.maps.Marker({
 		position: new google.maps.LatLng(locations[i]["lat"], locations[i]["lng"]),
 		map: map,
-		icon: 'http://ktct.ca/images/gis/map_icon_poi.png'
+		icon: locations[i]["icon-point"]
 		});
 
 		google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -78,7 +78,8 @@ function getGeolocalization(callback){
 						"phone"			: "",
 						"img"			: "",
 						"link"			: "",
-						"bg-color"		: "cornflowerblue" 
+						"bg-color"		: "cornflowerblue",
+						"icon-point"	: "http://cdn4.aptoide.com/imgs/f/2/b/f2b46c54ebcd78fc2aee8195dce6dd3f_icon_96x96.png" 
 					});
 
 			return callback();
