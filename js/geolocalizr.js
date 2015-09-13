@@ -27,7 +27,7 @@ function initializeNewMap(locations,zoom){
 		marker = new google.maps.Marker({
 		position: new google.maps.LatLng(locations[i]["lat"], locations[i]["lng"]),
 		map: map,
-		icon: locations[i]["icon-point"]
+		icon: path_images + locations[i]["icon-point"]
 		});
 
 		google.maps.event.addListener(marker, 'click', (function(marker, i) {
