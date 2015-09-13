@@ -5,6 +5,9 @@
  *
  */	
 
+var path_app = 'geolocation/images/';
+var path_images = 'http://' + window.location.host + '/' + path_app;
+
 //Metodo que inicializa el mapa 
 function initializeNewMap(locations,zoom){
 
@@ -16,7 +19,9 @@ function initializeNewMap(locations,zoom){
 
     var infowindow = new google.maps.InfoWindow();
 
-    var marker, i;
+    var marker, i;	
+
+    console.log("path imagenes: " + path_images)
 
     console.log("recorro locations")
     for (i = 0; i < locations.length; i++) {  
