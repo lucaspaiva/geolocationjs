@@ -34,7 +34,7 @@ function initializeNewMap(locations,zoom){
 		return function() {
 
 			var contentString = '<div id="containerInfoMap" style="width: 300px; height: 200px;">' +
-				'<div class="img" style="text-align: center; background-color: ' + locations[i]["bg-color"] +';"><img src="' + locations[i]["img"]  + '"></img></div>' +
+				'<div class="img" style="text-align: center; background-color: ' + path_images + locations[i]["bg-color"] +';"><img src="' + locations[i]["img"]  + '"></img></div>' +
 				'<div class="title" style="text-align: center;"><h3>' + locations[i]["title"] + '</h3></div>' +
 				'<div class="description" style="text-align: center;">' +
 				'<p>' + locations[i]["description"] + '</p>' +
