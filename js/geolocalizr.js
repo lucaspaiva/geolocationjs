@@ -5,7 +5,7 @@
  *
  */	
 
-var path_app = 'geolocation/images/';
+var path_app = 'geolocationjs/images/';
 var path_images = 'http://' + window.location.host + '/' + path_app;
 
 //Metodo que inicializa el mapa 
