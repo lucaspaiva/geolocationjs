@@ -1,7 +1,10 @@
 /*
- * GeoLocalizr.js: Metodo para dibujar varios puntos en un mapa de googlemaps
- * Author: Lucas Paiva		
- * Licencia: ?
+ * Name: GeoLocalizr.js: Funciones utiles para dibujar un mapa de googlemaps con diferentes puntos
+ * 					teniendo un json como input, como asi tambien la posibilidad de la geolocalizacion HTML5
+ *					del usuario, centrando en el mapa la ubicacion del usuario.
+ * Author: Lucas Paiva - (AR)		
+ * License: MIT
+ * Support: contacto.lucas.paiva@gmail.com
  *
  */	
 
@@ -21,7 +24,7 @@ function initializeNewMap(locations,zoom){
 
     var marker, i;	
 
-    console.log("recorro locations")
+    //Recorro locations
     for (i = 0; i < locations.length; i++) {  
     	console.log(i)
 		marker = new google.maps.Marker({
@@ -49,15 +52,11 @@ function initializeNewMap(locations,zoom){
 		})(marker, i));
 
     }
-
-	console.log("inicializo mapa")
-	   
+  
 }
 
 //Metodo que valida geolocalizacion y obtiene coordenadas del usuario
 function getGeolocalization(callback){
-
-	console.log("Cargamos el mapa cuando cargue el DOM");
 
 	if(navigator.geolocation){
 
@@ -66,10 +65,6 @@ function getGeolocalization(callback){
 			var latInit = objPosicion.coords.latitude;
 			var lngInit = objPosicion.coords.longitude;
 			
-			console.log("Obtengo coordenadas");
-			console.log("LNG: " + latInit);
-			console.log("LAT: " + lngInit);
-
 			//Inserto coordenadas del usuario al array de locations en primer lugar
 			locations.splice(0, 0,
 				    {
