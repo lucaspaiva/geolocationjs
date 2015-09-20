@@ -26,7 +26,7 @@ function initializeNewMap(locations,zoom){
 
     //Recorro locations
     for (i = 0; i < locations.length; i++) {  
-    	console.log(i)
+    	
 		marker = new google.maps.Marker({
 		position: new google.maps.LatLng(locations[i]["lat"], locations[i]["lng"]),
 		map: map,
